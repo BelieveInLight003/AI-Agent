@@ -1,16 +1,18 @@
 import 'dotenv/config';
 import { ChatOpenAI } from '@langchain/openai';
-import { HumanChatMessage, SystemChatMessage, ToolMessage } from '@langchain/schema';
+import { HumanMessage, SystemMessage, ToolMessage } from '@langchain/core/messages';
 import { readFileTool, writeFileTool, excuteCommandTool, listDirectoryTool } from './all-tools.mjs';
+import chalk from 'chalk';
 
 const model = new ChatOpenAI({
   modelName: 'qwen-plus',
-  temperature: 0,
-  apiKey: process.env.OPENAI_API_KEY,
-   configration: {
-    baseUrl: process.env.OPENAI_API_BASE_URL,
+  apiKey: process.env.OPEN_API_KEY,
+  configuration: {
+    baseURL: process.env.OPEN_BASE_URL,
   },
+    temperature: 0,
 });
+
 
 const tools = [readFileTool, writeFileTool, excuteCommandTool, listDirectoryTool];
 
@@ -42,6 +44,66 @@ async function runAgentWithTools(query, maxIterations = 30) {
   ];
 
   for (let i = 0; i < maxIterations; i++) {
-    
+    console.log(chalk.bgGreen(`⏳ 正在等待 AI 思考...`));
+
+    const response = await modelWithTools.invoke(messages);
+    const toolCalls = response.tool_calls ?? [];
+    console.log('response tool_calls:', toolCalls.length);
+    messages.push(response);
+
+    // 检查是否有工具调用
+    if (toolCalls.length === 0) {
+      console.log(`\n✨ AI 最终回复:\n${response.content}\n`);
+      return response.content;
+    }
+
+    for (let toolCall of toolCalls) {
+      const foundTool = tools.find(tool => tool.name === toolCall.name);
+
+      if (!foundTool) {
+        console.log(`[调试] 未识别的工具调用: ${toolCall.name}`);
+        continue;
+      }
+
+      const toolResult = await foundTool.call(toolCall.args);
+      messages.push(new ToolMessage({
+        content: toolResult,
+        tool_call_id: toolCall.id
+      }));
+    } 
   }
+
+  return messages[messages.length - 1].content;
 }
+
+// 案例输出
+const case1 = `创建一个功能丰富的 React TodoList 应用：
+
+1. 创建项目：echo -e "n\nn" | pnpm create vite react-todo-app --template react-ts
+2. 修改 react-todo-app/src/App.tsx，实现完整功能的 TodoList：
+ - 添加、删除、编辑、标记完成
+ - 分类筛选（全部/进行中/已完成）
+ - 统计信息显示
+ - localStorage 数据持久化
+3. 添加复杂样式：
+ - 渐变背景（蓝到紫）
+ - 卡片阴影、圆角
+ - 悬停效果
+4. 添加动画：
+ - 添加/删除时的过渡动画
+ - 使用 CSS transitions
+5. 列出目录确认
+
+注意：使用 pnpm，功能要完整，样式要美观，要有动画效果
+
+之后在 react-todo-app 项目中：
+1. 使用 pnpm install 安装依赖
+2. 使用 pnpm run dev 启动服务器
+`;
+
+try {
+  await runAgentWithTools(case1);
+} catch (error) {
+  console.error(`\n❌ 错误: ${error.message}\n`);
+}
+

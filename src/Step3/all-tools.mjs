@@ -1,4 +1,4 @@
-import { tool } from '@langchain/core';
+import { tool } from '@langchain/core/tools';
 import { spawn } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -47,44 +47,43 @@ const writeFileTool = tool(
 
 // 执行命令工具 带实时输出
 const excuteCommandTool = tool(
-  async ({ command, workingDirectory }) => {
-    const cwd = workingDirectory || process.cwd();
-    return new Promise((resolve, reject) => {
+  async ({ command, workingDirectory, cwd }) => {
+    const targetDir = workingDirectory || cwd || process.cwd();
+    return new Promise((resolve) => {
       const [cmd, ...args] = command.split(' ');
 
-      console.log(`  [工具调用] excute_command("${command}") - 在目录: ${workingDirectory} 执行命令`);
+      console.log(`  [工具调用] execute_command("${command}") - 在目录: ${targetDir} 执行命令`);
 
-      const child = spawn(cmd, args, { 
-        cwd: workingDirectory, 
-        stdio: 'inherit', 
+      const child = spawn(cmd, args, {
+        cwd: targetDir,
+        stdio: 'inherit',
         shell: true
       });
-      let errorMsg = '';
 
       child.on('error', (error) => {
-        error.msg = error.message;
-        console.log(`  [工具调用] excute_command("${command}") - 输出: ${error.msg}`);
+        console.log(`  [工具调用] execute_command("${command}") - 输出: ${error.message}`);
       });
 
       child.on('close', (code) => {
         if (code === 0) {
-          console.log(`  [工具调用] execute_command("${command}") - 执行成功`);
-          const cwdInfo = workingDirectory
-            ? `\n\n重要提示：命令在目录 "${workingDirectory}" 中执行成功。如果需要在这个项目目录中继续执行命令，请使用 workingDirectory: "${workingDirectory}" 参数，不要使用 cd 命令。`
-            : '';
-          resolve(`命令执行成功: ${command}${cwdInfo}`);
+          console.log(`  [工具调用] execute_command("${command}") - 执行成功`);
+          const cwdInfo = targetDir !== process.cwd()
+            ? `\n\n重要提示：命令在目录 "${targetDir}" 中执行成功。如果需要在这个项目目录中继续执行命令，请使用 workingDirectory: "${targetDir}" 参数，不要使用 cd 命令。`
+            : '';
+          resolve(`命令执行成功: ${command}${cwdInfo}`);
         } else {
-          console.log(`  [工具调用] execute_command("${command}") - 执行失败，退出码: ${code}`);
-          resolve(`命令执行失败，退出码: ${code}${errorMsg ? '\n错误: ' + errorMsg : ''}`);
+          console.log(`  [工具调用] execute_command("${command}") - 执行失败，退出码: ${code}`);
+          resolve(`命令执行失败，退出码: ${code}`);
         }
       });
     });
   }, {
-    name: 'excute_command',
-    description: '在指定目录下执行命令',
+    name: 'execute_command',
+    description: '在指定目录下执行命令',
     schema: z.object({
       command: z.string().describe('要执行的命令'),
-      cwd: z.string().describe('执行命令的目录'),
+      workingDirectory: z.string().optional().describe('执行命令的目录'),
+      cwd: z.string().optional().describe('兼容旧参数'),
     })
   }
 )
