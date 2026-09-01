@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "amap-maps-streamableHTTP": {
+      "url": "https://mcp.amap.com/mcp?key=89483055852f81759b3985308785a71d"
+    },
+    "filesystem": {
+      "command": "/Users/balala/.nvm/versions/node/v22.23.2/bin/npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/balala/Desktop/workspace/Summary/AI-Agent/src/Step5/data"
+      ]
+    },
+    "chrome-devtools": {
+      "command": "/Users/balala/.nvm/versions/node/v22.23.2/bin/npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ]
+    }
+  }
+}
