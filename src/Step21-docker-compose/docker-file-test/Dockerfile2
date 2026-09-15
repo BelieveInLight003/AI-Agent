@@ -1,0 +1,34 @@
+# 构建阶段：只负责编译，镜像名为 builder
+FROM node:24.15-alpine AS builder
+
+# 设置容器内工作目录
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm config set registry https://registry.npmmirror.com/
+RUN npm install
+RUN npm install -g @nestjs/cli
+
+COPY . .
+
+RUN npm run build
+
+
+# 运行容器
+FROM node:24.15-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm config set registry https://registry.npmmirror.com/
+
+RUN npm install --production
+
+# 从上一阶段 builder 里，只把编译产物 /app/dist 拷到当前运行镜像的 ./dist
+# 不拷源码和 devDependencies，所以最终镜像更小
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 3000
+CMD ["node", "dist/main.js"]
