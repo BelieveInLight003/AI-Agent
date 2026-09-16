@@ -1,4 +1,5 @@
 import { Annotation, StateGraph, START, END } from '@langchain/langgraph';
+import 'dotenv/config';
 
 // Annotation.Root：定义整张图共享的「状态结构」（相当于全局一份 state）
 // 节点只能读写这里声明过的字段

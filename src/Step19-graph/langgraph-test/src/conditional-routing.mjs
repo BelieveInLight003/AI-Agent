@@ -1,4 +1,6 @@
+import 'dotenv/config';
 import { Annotation, StateGraph, START, END } from '@langchain/langgraph';
+import { awaitAllCallbacks } from '@langchain/core/callbacks/promises';
 
 // 这份图的共享 state：三个独立字段（通道）
 // query = 用户输入；route = 路由结果（'math' | 'chat'）；answer = 最终回复
@@ -69,3 +71,6 @@ console.log(mermaid);
 // 执行：START → router（写入 route:'math'）→ math → END
 const result = await graph.invoke({ query: '1 + 1' });
 console.log(result);
+
+// Node 脚本结束得太快时，LangSmith 的上报还在后台，进程一退出记录就丢了
+await awaitAllCallbacks();
