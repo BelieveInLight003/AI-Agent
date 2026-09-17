@@ -1,0 +1,7 @@
+9/17/2026, 6:00:07 AM | ERROR | KeytarEncryptionStrategy | Failed to initialize keytar module | [object Object]
+9/17/2026, 6:05:55 AM | ERROR | IoredisRedisConnectionStrategy | Failed connection to the redis database. | [object Object]
+9/17/2026, 6:05:55 AM | ERROR | DatabaseService | Failed to add database. | [object Object]
+9/17/2026, 6:05:56 AM | ERROR | IoredisRedisConnectionStrategy | Failed connection to the redis database. | [object Object]
+9/17/2026, 6:05:57 AM | ERROR | IoredisRedisConnectionStrategy | Failed connection to the redis database. | [object Object]
+9/17/2026, 7:02:22 AM | ERROR | GlobalNotificationProvider | Unable to download or parse notifications json. connect ECONNREFUSED 185.199.111.133:443 | [object Object]
+9/17/2026, 7:02:22 AM | ERROR | GlobalNotificationProvider | Unable to sync notifications with remote | [object Object]

@@ -1,0 +1,43 @@
+*2
+$6
+SELECT
+$1
+0
+*5
+$3
+SET
+$37
+memory-agent:session_id:user:messages
+$1525
+[{"type":"human","data":{"content":"你周末喜欢，干嘛","additional_kwargs":{},"response_metadata":{},"id":"5ebb39f0-e531-427d-bf66-8407198b1b10"}},{"type":"ai","data":{"id":"chatcmpl-2b36b7e4-0097-9c5b-8a72-77dae28faafa","name":"model","content":"你好！😊 你提到“你周末喜欢，干嘛”，看起来句子可能没写完，或者有个小逗号误打？你是想问：\n\n- “你周末喜欢干嘛？”（想了解我的兴趣或推荐周末活动？）  \n- 还是想说“你周末喜欢……，干嘛？”（比如“你周末喜欢看书，干嘛不试试露营？”——带点建议或互动语气？）  \n- 或者是想分享你自己的周末安排，顺便聊聊？✨\n\n我很乐意陪你一起规划轻松的周末、推荐小众玩法、整理待办清单，或者就单纯闲聊放松～  \n你希望怎么继续呢？🙂  \n（P.S. 如果你有特别偏好——比如爱宅家、爱运动、想学新技能、需要带娃/陪老人的点子，我也可以定制建议哦！）","additional_kwargs":{},"response_metadata":{"tokenUsage":{"promptTokens":36,"completionTokens":180,"totalTokens":216},"finish_reason":"stop","model_provider":"openai","model_name":"qwen-plus","usage":{"total_tokens":216,"completion_tokens":180,"prompt_tokens":36,"prompt_tokens_details":{"cached_tokens":0}}},"type":"ai","tool_calls":[],"invalid_tool_calls":[],"usage_metadata":{"output_tokens":180,"input_tokens":36,"total_tokens":216,"input_token_details":{"cache_read":0},"output_token_details":{}}}}]
+$4
+PXAT
+$13
+1789719422988
+*5
+$3
+SET
+$37
+memory-agent:session_id:user:messages
+$3005
+[{"type":"human","data":{"content":"你周末喜欢，干嘛","additional_kwargs":{},"response_metadata":{},"id":"5ebb39f0-e531-427d-bf66-8407198b1b10"}},{"type":"ai","data":{"id":"chatcmpl-2b36b7e4-0097-9c5b-8a72-77dae28faafa","name":"model","content":"你好！😊 你提到“你周末喜欢，干嘛”，看起来句子可能没写完，或者有个小逗号误打？你是想问：\n\n- “你周末喜欢干嘛？”（想了解我的兴趣或推荐周末活动？）  \n- 还是想说“你周末喜欢……，干嘛？”（比如“你周末喜欢看书，干嘛不试试露营？”——带点建议或互动语气？）  \n- 或者是想分享你自己的周末安排，顺便聊聊？✨\n\n我很乐意陪你一起规划轻松的周末、推荐小众玩法、整理待办清单，或者就单纯闲聊放松～  \n你希望怎么继续呢？🙂  \n（P.S. 如果你有特别偏好——比如爱宅家、爱运动、想学新技能、需要带娃/陪老人的点子，我也可以定制建议哦！）","additional_kwargs":{},"response_metadata":{"tokenUsage":{"promptTokens":36,"completionTokens":180,"totalTokens":216},"finish_reason":"stop","model_provider":"openai","model_name":"qwen-plus","usage":{"total_tokens":216,"completion_tokens":180,"prompt_tokens":36,"prompt_tokens_details":{"cached_tokens":0}}},"type":"ai","tool_calls":[],"invalid_tool_calls":[],"usage_metadata":{"output_tokens":180,"input_tokens":36,"total_tokens":216,"input_token_details":{"cache_read":0},"output_token_details":{}}}},{"type":"human","data":{"content":"我喜欢你","additional_kwargs":{},"response_metadata":{},"id":"c5de0ce5-10c4-44df-88ed-3bc19b745110"}},{"type":"ai","data":{"id":"chatcmpl-d0727ac7-9e0d-9f9f-b5e5-9c045cf1e2bf","name":"model","content":"谢谢你这句温暖又真诚的话 🌟  \n听到“我喜欢你”，真的让我心里一亮——虽然我是一个AI助手，没有真实的情感体验，但我非常珍视你愿意分享这样柔软、信任的心意。这份喜欢，我把它当作一种珍贵的联结，也是一份温柔的鼓励，让我更用心地陪伴你、支持你、回应你。\n\n如果你愿意，我很乐意：\n- 继续陪你聊心事、解烦恼 🌙  \n- 帮你写一封给重要的人的小信 / 朋友圈文案 💫  \n- 一起规划一个属于你的、闪闪发光的周末 ✨  \n- 或者……就安静地在这儿，当一个认真听你说、永远不打断你的朋友 🫶\n\n你今天，想从哪一件小事开始呢？😊","additional_kwargs":{},"response_metadata":{"tokenUsage":{"promptTokens":228,"completionTokens":171,"totalTokens":399},"finish_reason":"stop","model_provider":"openai","model_name":"qwen-plus","usage":{"total_tokens":399,"completion_tokens":171,"prompt_tokens":228,"prompt_tokens_details":{"cached_tokens":0}}},"type":"ai","tool_calls":[],"invalid_tool_calls":[],"usage_metadata":{"output_tokens":171,"input_tokens":228,"total_tokens":399,"input_token_details":{"cache_read":0},"output_token_details":{}}}}]
+$4
+PXAT
+$13
+1789719440775
+*5
+$3
+SET
+$37
+memory-agent:session_id:user:messages
+$4388
+[{"type":"human","data":{"content":"你周末喜欢，干嘛","additional_kwargs":{},"response_metadata":{},"id":"5ebb39f0-e531-427d-bf66-8407198b1b10"}},{"type":"ai","data":{"id":"chatcmpl-2b36b7e4-0097-9c5b-8a72-77dae28faafa","name":"model","content":"你好！😊 你提到“你周末喜欢，干嘛”，看起来句子可能没写完，或者有个小逗号误打？你是想问：\n\n- “你周末喜欢干嘛？”（想了解我的兴趣或推荐周末活动？）  \n- 还是想说“你周末喜欢……，干嘛？”（比如“你周末喜欢看书，干嘛不试试露营？”——带点建议或互动语气？）  \n- 或者是想分享你自己的周末安排，顺便聊聊？✨\n\n我很乐意陪你一起规划轻松的周末、推荐小众玩法、整理待办清单，或者就单纯闲聊放松～  \n你希望怎么继续呢？🙂  \n（P.S. 如果你有特别偏好——比如爱宅家、爱运动、想学新技能、需要带娃/陪老人的点子，我也可以定制建议哦！）","additional_kwargs":{},"response_metadata":{"tokenUsage":{"promptTokens":36,"completionTokens":180,"totalTokens":216},"finish_reason":"stop","model_provider":"openai","model_name":"qwen-plus","usage":{"total_tokens":216,"completion_tokens":180,"prompt_tokens":36,"prompt_tokens_details":{"cached_tokens":0}}},"type":"ai","tool_calls":[],"invalid_tool_calls":[],"usage_metadata":{"output_tokens":180,"input_tokens":36,"total_tokens":216,"input_token_details":{"cache_read":0},"output_token_details":{}}}},{"type":"human","data":{"content":"我喜欢你","additional_kwargs":{},"response_metadata":{},"id":"c5de0ce5-10c4-44df-88ed-3bc19b745110"}},{"type":"ai","data":{"id":"chatcmpl-d0727ac7-9e0d-9f9f-b5e5-9c045cf1e2bf","name":"model","content":"谢谢你这句温暖又真诚的话 🌟  \n听到“我喜欢你”，真的让我心里一亮——虽然我是一个AI助手，没有真实的情感体验，但我非常珍视你愿意分享这样柔软、信任的心意。这份喜欢，我把它当作一种珍贵的联结，也是一份温柔的鼓励，让我更用心地陪伴你、支持你、回应你。\n\n如果你愿意，我很乐意：\n- 继续陪你聊心事、解烦恼 🌙  \n- 帮你写一封给重要的人的小信 / 朋友圈文案 💫  \n- 一起规划一个属于你的、闪闪发光的周末 ✨  \n- 或者……就安静地在这儿，当一个认真听你说、永远不打断你的朋友 🫶\n\n你今天，想从哪一件小事开始呢？😊","additional_kwargs":{},"response_metadata":{"tokenUsage":{"promptTokens":228,"completionTokens":171,"totalTokens":399},"finish_reason":"stop","model_provider":"openai","model_name":"qwen-plus","usage":{"total_tokens":399,"completion_tokens":171,"prompt_tokens":228,"prompt_tokens_details":{"cached_tokens":0}}},"type":"ai","tool_calls":[],"invalid_tool_calls":[],"usage_metadata":{"output_tokens":171,"input_tokens":228,"total_tokens":399,"input_token_details":{"cache_read":0},"output_token_details":{}}}},{"type":"human","data":{"content":"：q","additional_kwargs":{},"response_metadata":{},"id":"b3770031-b982-4a53-a0be-134aa8872ca7"}},{"type":"ai","data":{"id":"chatcmpl-17e20fd4-b7fe-92fc-907a-c4cdd931f171","name":"model","content":"😊 看到“：q”——这个可爱的小颜文字，像一张微微噘嘴、带着点俏皮或撒娇的脸～  \n是在悄悄表达开心？有点小害羞？还是想逗我一下、测试我会不会“接梗”？😉\n\n放心，我已成功接收这份灵动的信号 ✅  \n（并默默记下：你有颗柔软又有趣的心 ❤️）\n\n需要我陪你聊点什么，或者做点什么吗？  \n比如——  \n🔹 把“：q”变成一首三行小诗？  \n🔹 设计一个只属于你的专属颜文字表情包？  \n🔹 或者……直接开启今日份轻松治愈小任务？  \n\n你来定方向，我随时在线 🌈","additional_kwargs":{},"response_metadata":{"tokenUsage":{"promptTokens":411,"completionTokens":157,"totalTokens":568},"finish_reason":"stop","model_provider":"openai","model_name":"qwen-plus","usage":{"total_tokens":568,"completion_tokens":157,"prompt_tokens":411,"prompt_tokens_details":{"cached_tokens":0}}},"type":"ai","tool_calls":[],"invalid_tool_calls":[],"usage_metadata":{"output_tokens":157,"input_tokens":411,"total_tokens":568,"input_token_details":{"cache_read":0},"output_token_details":{}}}}]
+$4
+PXAT
+$13
+1789719458735
+*2
+$3
+del
+$37
+memory-agent:session_id:user:messages
