@@ -1,0 +1,130 @@
+# 知识库本地依赖：PostgreSQL（元数据）+ MongoDB（正文）以及两个网页管理端。
+#
+# 用法（在本目录执行）：
+#   docker compose up -d          启动全部服务
+#   docker compose ps             看状态；healthy 才算就绪
+#   docker compose logs -f mongodb  看某个服务日志
+#   docker compose stop           停止容器，数据还在
+#   docker compose down           删容器，不删下面的数据目录
+#
+# 数据在 ./volumes 下（绑定本机目录）。删这个目录等于清空数据库。
+# docker compose down -v 不会删绑定目录。
+# init-scripts 只在对应数据目录为空的第一次启动时执行。
+
+services:
+  # PostgreSQL：存文档元数据（表 kh_document）。镜像带 pgvector，后面可做向量检索。
+  # 本机 Nest 连接：localhost:5432，用户 user，密码 123456，库 knowledge_hub。
+  # 容器之间互访用服务名 postgres，不要用 localhost。
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: knowledge_hub_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: knowledge_hub
+    ports:
+      # 宿主机端口:容器端口。本机工具连 5432。
+      - '5432:5432'
+    volumes:
+      # 库文件。目录里已有数据时，下面的初始化脚本不会再跑。
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/postgres:/var/lib/postgresql/data
+      # 首次空库时执行 init.sql，创建 kh_document。
+      - ./init-scripts/postgresql:/docker-entrypoint-initdb.d
+    healthcheck:
+      # 这里检查的是 hello_pg，实际库名是 knowledge_hub，健康检查可能一直失败，不影响库本身可用。
+      test: ['CMD-SHELL', 'pg_isready -U user -d hello_pg']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # pgAdmin：用浏览器看 PostgreSQL。打开 http://localhost:8088
+  # 网页登录：admin@admin.com / admin
+  # 登录后「注册服务器」的主机填 postgres（容器服务名），用户密码与上面 PostgreSQL 相同。
+  pgadmin:
+    container_name: knowledge_hub_pgadmin
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      # pgAdmin 自己的配置。目录权限不对时网页会打不开，容器却显示在跑。
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/pgadmin:/var/lib/pgadmin
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:80/login']
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    ports:
+      - '8088:80'
+    depends_on:
+      - postgres
+
+  # MongoDB：存文档正文。空库不会出现在列表里，要等写入集合后才能看见。
+  # 本机 Nest 连接：
+  #   mongodb://mongo_user:mongo_pass123@localhost:27017/knowledge_hub?authSource=admin
+  # 管理员账号在 admin 库；业务库 knowledge_hub 由 init.js 再建一个读写用户。
+  mongodb:
+    image: mongo:7-jammy
+    container_name: knowledge_hub_mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo_user
+      MONGO_INITDB_ROOT_PASSWORD: mongo_pass123
+      # 只指定库名不会自动出现可浏览的库，init.js 里创建集合后才可见。
+      MONGO_INITDB_DATABASE: knowledge_hub
+    ports:
+      - '27017:27017'
+    volumes:
+      # 库文件。macOS 上这个目录权限或残留锁文件会导致启动失败。
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/mongo:/data/db
+      # 首次空库时执行 init.js：创建 knowledge_hub 以及集合。
+      - ./init-scripts/mongodb:/docker-entrypoint-initdb.d
+    healthcheck:
+      # 用 root 账号对 admin 库发 ping。启动初期会先无认证初始化，所以给了 start_period。
+      test:
+        [
+          'CMD',
+          'mongosh',
+          '--eval',
+          'db.adminCommand("ping")',
+          '-u',
+          'mongo_user',
+          '-p',
+          'mongo_pass123',
+          '--authenticationDatabase',
+          'admin',
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # mongo-express：用浏览器看 MongoDB。打开 http://localhost:8081
+  # 网页登录：me_admin / me_123456（这是网页账号，不是数据库账号）
+  # 必须等 MongoDB 健康后才启动。改了下面的环境变量后，要重新创建本容器才会生效。
+  mongo-express:
+    image: mongo-express:1.0.2-20-alpine3.19
+    container_name: knowledge_hub_mongo_express
+    restart: always
+    ports:
+      - '8081:8081'
+    environment:
+      # 容器内访问用服务名 mongodb；本机 Nest/客户端用 localhost。
+      ME_CONFIG_MONGODB_URL: mongodb://mongo_user:mongo_pass123@mongodb:27017/knowledge_hub?authSource=admin
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
+      # mongo-express 网页登录账号（区分数据库账号）
+      ME_CONFIG_BASICAUTH_ENABLED: 'true'
+      ME_CONFIG_BASICAUTH_USERNAME: me_admin
+      ME_CONFIG_BASICAUTH_PASSWORD: me_123456
+      # 编辑器暗色主题
+      ME_CONFIG_OPTIONS_EDITORTHEME: '3024-night'
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+networks:
+  # 四个服务都在这个网络里，用服务名互相访问。
+  # 若网络是以前别的项目建的，compose 可能提示它不是本文件创建的。
+  default:
+    name: common-network
